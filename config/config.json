@@ -1,0 +1,13 @@
+{
+  "port": 8888,
+  "title": "Hello World",
+  "trustProxy": true,
+  "middleware": {
+    "body-parser": {
+      "module": {
+        "name": "body-parser",
+        "method": "json"
+      }
+    }
+  }
+}

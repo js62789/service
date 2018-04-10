@@ -1,0 +1,30 @@
+{
+  "name": "service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "url": "https://github.com/js62789/service/issues",
+  "scripts": {
+    "start": "node index",
+    "build": "npm run build:server",
+    "build:server": "babel src --out-dir build",
+    "lint": "eslint ./src/**",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "confit": "^2.3.0",
+    "express": "^4.16.3",
+    "meddleware": "^3.0.3",
+    "shortstop-handlers": "^1.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "eslint": "^4.19.1"
+  }
+}
