@@ -6,8 +6,8 @@
   "url": "https://github.com/js62789/service/issues",
   "scripts": {
     "start": "node index",
-    "build": "npm run build:server",
-    "build:server": "babel src --out-dir build",
+    "postinstall": "npm run build",
+    "build": "babel src --out-dir build",
     "lint": "eslint ./src/**",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
