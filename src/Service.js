@@ -85,7 +85,9 @@ export default class Service {
       this.app.use(meddleware(middleware));
     }
 
-    this.server.listen(config.get('port'), callback);
+    return new Promise((resolve, reject) => {
+      this.server.listen(config.get('port'), resolve);
+    });
   }
 
   stop(callback) {
