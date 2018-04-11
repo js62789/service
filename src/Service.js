@@ -20,68 +20,72 @@ function betterRequire(basepath) {
   };
 }
 
+const confitOptions = rootdir => ({
+  basedir: path.join(rootdir, 'config'),
+  protocols: {
+    path: handlers.path(rootdir),
+    require: betterRequire(rootdir)
+  }
+});
+
+const confitPromise = configFactory => new Promise((resolve, reject) => {
+  configFactory.create((err, config) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    resolve(config);
+  });
+});
+
 export default class Service {
   constructor() {
     this.app = express();
     this.server = http.createServer(this.app);
-    this.configFactory = confit({
-      basedir: path.join(__dirname, '..', 'config'),
-      protocols: {
-        path: handlers.path(path.join(__dirname, '..')),
-        require: betterRequire(path.join(__dirname, '..'))
-      }
-    });
+    this.addConfiguration(path.join(__dirname, '..'));
   }
 
-  configure(callback) {
-    this.configFactory.create(callback);
+  configFactories = []
+
+  async configure() {
+    const { configFactories } = this;
+    const rootConfigFactory = configFactories.shift();
+    const promises = configFactories.map(confitPromise);
+    const configs = await Promise.all(promises);
+
+    configs.forEach(config => {
+      rootConfigFactory.addOverride(config._store);
+    });
+
+    const config = await confitPromise(rootConfigFactory);
+
+    return config;
   }
 
-  addConfiguration(basedir, callback) {
-    const options = {
-      basedir: path.join(basedir, 'config'),
-      protocols: {
-        path: handlers.path(basedir),
-        require: betterRequire(basedir)
-      }
-    };
-    confit(options).create((err, config) => {
-      if (err) {
-        callback(err);
-        return;
-      }
-
-      this.configFactory.addOverride(config._store);
-      callback();
-    });
+  addConfiguration(rootdir) {
+    const configFactory = confit(confitOptions(rootdir));
+    this.configFactories.push(configFactory);
   }
 
-  start(callback) {
-    this.configure((err, config) => {
-      if (err) {
-        callback(err);
-        return;
-      }
+  async start() {
+    const config = this.config = await this.configure();
 
-      this.config = config;
+    if (config.get('trustProxy')) {
+      this.app.enable('trust proxy');
+    }
 
-      if (config.get('trustProxy')) {
-        this.app.enable('trust proxy');
-      }
-
-      this.app.use((req, res, next) => {
-        req.config = config;
-        next();
-      });
-
-      const middleware = config.get('middleware');
-
-      if (middleware) {
-        this.app.use(meddleware(middleware));
-      }
-
-      this.server.listen(config.get('port'), callback);
+    this.app.use((req, res, next) => {
+      req.config = config;
+      next();
     });
+
+    const middleware = config.get('middleware');
+
+    if (middleware) {
+      this.app.use(meddleware(middleware));
+    }
+
+    this.server.listen(config.get('port'), callback);
   }
 
   stop(callback) {
