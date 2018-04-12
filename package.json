@@ -19,7 +19,8 @@
     "confit": "^2.3.0",
     "express": "^4.16.3",
     "meddleware": "^3.0.3",
-    "shortstop-handlers": "^1.0.1"
+    "shortstop-handlers": "^1.0.1",
+    "shortstop-regex": "0.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

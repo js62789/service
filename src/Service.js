@@ -4,6 +4,7 @@ import confit from 'confit';
 import express from 'express';
 import meddleware from 'meddleware';
 import handlers from 'shortstop-handlers';
+import shortstopRegex from 'shortstop-regex';
 
 function betterRequire(basepath) {
   const baseRequire = handlers.require(basepath);
@@ -24,7 +25,8 @@ const confitOptions = rootdir => ({
   basedir: path.join(rootdir, 'config'),
   protocols: {
     path: handlers.path(rootdir),
-    require: betterRequire(rootdir)
+    require: betterRequire(rootdir),
+    regex: shortstopRegex()
   }
 });
 
