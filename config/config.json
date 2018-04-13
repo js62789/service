@@ -2,8 +2,23 @@
   "port": 8888,
   "title": "Hello World",
   "trustProxy": true,
+  "logging": {
+    "format": "combined",
+    "options": {}
+  },
   "middleware": {
+    "logger": {
+      "priority": 20,
+      "module": {
+        "name": "morgan",
+        "arguments": [
+          "config:logging.format",
+          "config:logging.options"
+        ]
+      }
+    },
     "body-parser": {
+      "priority": 40,
       "module": {
         "name": "body-parser",
         "method": "json"
