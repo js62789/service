@@ -6,6 +6,7 @@
     "format": "combined",
     "options": {}
   },
+  "routesDir": "path:./build/routes",
   "middleware": {
     "logger": {
       "priority": 20,
@@ -22,6 +23,28 @@
       "module": {
         "name": "body-parser",
         "method": "json"
+      }
+    },
+    "routes": {
+      "priority": 100,
+      "module": {
+        "name": "express-enrouten",
+        "arguments": [
+          {
+            "directory": "config:routesDir"
+          }
+        ]
+      }
+    },
+    "health-routes": {
+      "priority": 101,
+      "module": {
+        "name": "express-enrouten",
+        "arguments": [
+          {
+            "directory": "path:./build/routes"
+          }
+        ]
       }
     }
   }
