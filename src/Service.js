@@ -51,19 +51,19 @@ export default class Service {
   configFactories = []
 
   async configure() {
-    const { configFactories } = this;
-    const rootConfigFactory = configFactories.pop();
-    const promises = configFactories.map(confitPromise);
-    const configs = await Promise.all(promises);
+    let lastConfig;
 
-    // Layer the configurations from most recently added
-    configs.reverse().forEach(config => {
-      rootConfigFactory.addDefault(config._store);
-    });
+    for (const configFactory of this.configFactories) {
+      if (lastConfig) {
+        // Add the top level config as a default
+        configFactory.addDefault(lastConfig._store);
+      }
 
-    const config = await confitPromise(rootConfigFactory);
+      // Create the merged config
+      lastConfig = await confitPromise(configFactory);
+    }
 
-    return config;
+    return lastConfig;
   }
 
   addConfiguration(rootdir, srcdir) {
