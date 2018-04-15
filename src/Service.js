@@ -53,10 +53,10 @@ export default class Service {
   async configure() {
     let lastConfig;
 
-    for (const configFactory of this.configFactories) {
+    for (const configFactory of this.configFactories.reverse()) {
       if (lastConfig) {
         // Add the top level config as a default
-        configFactory.addDefault(lastConfig._store);
+        configFactory.addOverride(lastConfig._store);
       }
 
       // Create the merged config
