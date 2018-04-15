@@ -45,7 +45,7 @@ export default class Service {
   constructor() {
     this.app = express();
     this.server = http.createServer(this.app);
-    this.addConfiguration(path.join(__dirname, '..'));
+    this.addConfiguration(path.join(__dirname, '..'), __dirname);
   }
 
   configFactories = []

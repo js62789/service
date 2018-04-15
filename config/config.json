@@ -6,7 +6,7 @@
     "format": "combined",
     "options": {}
   },
-  "routesDir": "path:./src/routes",
+  "routesDir": "sourcepath:./routes",
   "middleware": {
     "logger": {
       "priority": 20,
@@ -42,7 +42,7 @@
         "name": "express-enrouten",
         "arguments": [
           {
-            "directory": "path:./build/routes"
+            "directory": "sourcepath:./routes"
           }
         ]
       }
