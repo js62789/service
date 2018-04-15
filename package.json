@@ -9,8 +9,7 @@
     "build": "babel src --out-dir build",
     "lint": "eslint ./src/**",
     "test": "mocha --require babel-core/register test/**/*.test.js",
-    "test:watch": "mocha --require babel-core/register --watch test/**/*.test.js",
-    "test:debug": "node --inspect ./node_modules/.bin/mocha --require babel-core/register test/**/*.test.js"
+    "test:watch": "mocha --require babel-core/register --watch test/**/*.test.js"
   },
   "author": "",
   "license": "ISC",
