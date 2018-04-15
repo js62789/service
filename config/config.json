@@ -6,7 +6,7 @@
     "format": "combined",
     "options": {}
   },
-  "routesDir": "path:./build/routes",
+  "routesDir": "path:./src/routes",
   "middleware": {
     "logger": {
       "priority": 20,
