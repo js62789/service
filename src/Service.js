@@ -52,12 +52,13 @@ export default class Service {
 
   async configure() {
     const { configFactories } = this;
-    const rootConfigFactory = configFactories.shift();
+    const rootConfigFactory = configFactories.pop();
     const promises = configFactories.map(confitPromise);
     const configs = await Promise.all(promises);
 
-    configs.forEach(config => {
-      rootConfigFactory.addOverride(config._store);
+    // Layer the configurations from most recently added
+    configs.reverse().forEach(config => {
+      rootConfigFactory.addDefault(config._store);
     });
 
     const config = await confitPromise(rootConfigFactory);
