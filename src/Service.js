@@ -21,10 +21,11 @@ function betterRequire(basepath) {
   };
 }
 
-const confitOptions = rootdir => ({
+const confitOptions = (rootdir, srcdir = path.join(rootdir, 'src')) => ({
   basedir: path.join(rootdir, 'config'),
   protocols: {
     path: handlers.path(rootdir),
+    sourcepath: handlers.path(srcdir),
     require: betterRequire(rootdir),
     regex: shortstopRegex()
   }
@@ -64,8 +65,8 @@ export default class Service {
     return config;
   }
 
-  addConfiguration(rootdir) {
-    const configFactory = confit(confitOptions(rootdir));
+  addConfiguration(rootdir, srcdir) {
+    const configFactory = confit(confitOptions(rootdir, srcdir));
     this.configFactories.push(configFactory);
   }
 
