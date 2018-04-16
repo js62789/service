@@ -5,6 +5,7 @@
   "main": "build/index.js",
   "url": "https://github.com/js62789/service/issues",
   "scripts": {
+    "start": "node scripts/run",
     "postinstall": "npm run build",
     "build": "babel src --out-dir build",
     "lint": "eslint ./src/**",
